@@ -6,7 +6,7 @@ function CardContainer(props) {
 	//console.log(props.libraries)
 
 	const cards = props.libraries.map(library => {
-	        return <Card key={library.name} library={library}/>
+	        return <Card key={library.name} library={library} toggleSidebar={props.toggleSidebar}/>
 	    })
 
   return (
