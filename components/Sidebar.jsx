@@ -10,7 +10,7 @@ function Sidebar(props) {
             <div key={comment.body}>
                 <h5>{comment.body}</h5>
                 <small>{date.toString()}</small><br></br><br />
-                <button>Edit</button>
+                <button onClick={() => props.handleEditButton(comment)}>Edit</button>
                 <button>Delete</button>
             </div>
         )

@@ -10,6 +10,8 @@ function Main() {
     //console.log(comment);
     const [displaySidebar, setDisplaySidebar] = useState(false)
     const [currentLibrary, setCurrentLibrary] = useState("")
+    const [editButtonClicked, setEditButtonClicked] = useState(false)
+    const [currentComment, setCurrentComment] = useState("")
 
     React.useEffect(() => {
         fetch("http://localhost:3000/libraries")
@@ -50,6 +52,49 @@ function Main() {
         })
     }
 
+    function handleEditButton(comment) {
+        setEditButtonClicked(prevEdit => !prevEdit)
+        setCurrentComment(comment)
+        setComment(comment.body) //set textarea value with comment to edit
+        console.log(currentComment);
+    }
+
+    function editComment(event) {
+        event.preventDefault()
+        fetch(`http://localhost:3000/libraries/${currentLibrary._id}/comments/${currentComment._id}`, {
+            method: "PUT",
+            headers: {"Content-Type": "application/json"},
+            body: JSON.stringify({
+                body: comment
+            })
+        })
+        .then(response => response.json())
+        .then(updatedLibrary => {
+            if(!updatedLibrary.error) {
+                setEditButtonClicked(prevEdit => !prevEdit)
+                setLibraries(oldLibraries => oldLibraries.map(oldLibrary => {
+                    if(oldLibrary._id == updatedLibrary._id) {
+                        let tempComments = [...oldLibrary.comments]
+                        let index = updatedLibrary.comments.findIndex(comment => comment._id == currentComment._id)
+                        console.log(index);
+                        if(index != -1) {
+                            tempComments[index] = {
+                                ...tempComments[index],
+                                body : comment
+                            }
+                        }
+                        return {...oldLibrary, comments: tempComments}
+                    } else {
+                        return oldLibrary
+                    }
+                }))
+                setComment("")
+            } else {
+                alert(updatedLibrary.error.message)
+            }
+        })
+    }
+
     return (
         <div>
             <h1>Main Component</h1>
@@ -62,7 +107,8 @@ function Main() {
                 libraries={libraries}
                 currentLibrary={currentLibrary}
                 onCommentTextChange={setComment} 
-                submitComment={postComment}
+                submitComment={editButtonClicked ? editComment : postComment}
+                handleEditButton={handleEditButton}
             />}
         </div>
     )
