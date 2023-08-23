@@ -14,7 +14,7 @@ function Main() {
     const [currentComment, setCurrentComment] = useState("")
 
     React.useEffect(() => {
-        fetch("http://localhost:3000/libraries")
+        fetch("https://libraries-of-pg-demo-9518b5dcdc8c.herokuapp.com/libraries")
         .then(response => response.json())
         .then(libraries => setLibraries(libraries))
     }, [])
@@ -27,7 +27,7 @@ function Main() {
 
     function postComment(event) {
         event.preventDefault()
-        fetch(`http://localhost:3000/libraries/${currentLibrary._id}/comments`, {
+        fetch(`https://libraries-of-pg-demo-9518b5dcdc8c.herokuapp.com/libraries/${currentLibrary._id}/comments`, {
             method: "POST",
             headers: {"Content-Type": "application/json"},
             body: JSON.stringify({
@@ -61,7 +61,7 @@ function Main() {
 
     function editComment(event) {
         event.preventDefault()
-        fetch(`http://localhost:3000/libraries/${currentLibrary._id}/comments/${currentComment._id}`, {
+        fetch(`https://libraries-of-pg-demo-9518b5dcdc8c.herokuapp.com/libraries/${currentLibrary._id}/comments/${currentComment._id}`, {
             method: "PUT",
             headers: {"Content-Type": "application/json"},
             body: JSON.stringify({
@@ -96,7 +96,7 @@ function Main() {
     }
 
     function deleteComment(commentToDelete) {
-        fetch(`http://localhost:3000/libraries/${currentLibrary._id}/comments/${commentToDelete._id}`, {
+        fetch(`https://libraries-of-pg-demo-9518b5dcdc8c.herokuapp.com/libraries/${currentLibrary._id}/comments/${commentToDelete._id}`, {
             method: "DELETE"
         })
         .then(response => response.json())
