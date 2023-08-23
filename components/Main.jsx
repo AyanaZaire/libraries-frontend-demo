@@ -95,6 +95,23 @@ function Main() {
         })
     }
 
+    function deleteComment(commentToDelete) {
+        fetch(`http://localhost:3000/libraries/${currentLibrary._id}/comments/${commentToDelete._id}`, {
+            method: "DELETE"
+        })
+        .then(response => response.json())
+        .then(updatedLibrary => {
+            if(!updatedLibrary.error) {
+                // console.log("empty object", updatedLibrary)
+                setLibraries(oldLibraries => oldLibraries.map(oldLibrary => {
+                    return {...oldLibrary, comments: oldLibrary.comments.filter(comment => comment._id !== commentToDelete._id)}
+                }))
+            } else {
+                alert(updatedLibrary.error.message)
+            }
+        })
+    }
+
     return (
         <div>
             <h1>Main Component</h1>
@@ -109,6 +126,7 @@ function Main() {
                 onCommentTextChange={setComment} 
                 submitComment={editButtonClicked ? editComment : postComment}
                 handleEditButton={handleEditButton}
+                deleteComment={deleteComment}
             />}
         </div>
     )

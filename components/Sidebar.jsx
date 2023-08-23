@@ -11,7 +11,7 @@ function Sidebar(props) {
                 <h5>{comment.body}</h5>
                 <small>{date.toString()}</small><br></br><br />
                 <button onClick={() => props.handleEditButton(comment)}>Edit</button>
-                <button>Delete</button>
+                <button onClick={() => props.deleteComment(comment)}>Delete</button>
             </div>
         )
     })
