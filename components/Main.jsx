@@ -20,7 +20,7 @@ function Main() {
     }, [])
 
     function toggleSidebar(libraryId) {
-        setDisplaySidebar(true)
+        setDisplaySidebar(prevDisplay => !prevDisplay)
         const foundLibrary = libraries.find(library => library._id == libraryId)
         setCurrentLibrary(foundLibrary)
     }
@@ -113,21 +113,24 @@ function Main() {
     }
 
     return (
-        <div>
-            <h1>Main Component</h1>
-            <CardContainer 
-                libraries={libraries} 
-                toggleSidebar={toggleSidebar} 
-            />
-            {displaySidebar && <Sidebar 
-                comment={comment} 
-                libraries={libraries}
-                currentLibrary={currentLibrary}
-                onCommentTextChange={setComment} 
-                submitComment={editButtonClicked ? editComment : postComment}
-                handleEditButton={handleEditButton}
-                deleteComment={deleteComment}
-            />}
+        <div className="container-fluid">
+            <div className="row">
+                <CardContainer 
+                    className="content"
+                    libraries={libraries} 
+                    toggleSidebar={toggleSidebar} 
+                />
+                {displaySidebar && <Sidebar 
+                    comment={comment} 
+                    libraries={libraries}
+                    currentLibrary={currentLibrary}
+                    onCommentTextChange={setComment} 
+                    submitComment={editButtonClicked ? editComment : postComment}
+                    handleEditButton={handleEditButton}
+                    deleteComment={deleteComment}
+                    toggleSidebar={toggleSidebar} 
+                />}
+            </div>
         </div>
     )
 }

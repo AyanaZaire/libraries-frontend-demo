@@ -10,9 +10,10 @@ function CardContainer(props) {
 	    })
 
   return (
-      <div>
-          <h2>Card Container Component</h2>
-          {cards}
+      <div className="col-sm-8">
+          <div className="row row-cols-1 row-cols-md-3 g-4">
+            {cards}
+        </div>
       </div>
   )
 }
